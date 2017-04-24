@@ -39,7 +39,7 @@ class InteractiveRecord
 
     DB[:conn].execute(sql)
 
-    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
+    self.id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
   end
 
   # Returns the column names that will be used to insert values into database
@@ -63,7 +63,7 @@ class InteractiveRecord
     self.class.table_name
   end
 
-  # TODO - .find_by_name executes the SQL to find a row by name
+  # Finds a row by name
   def self.find_by_name(name)
     sql = "SELECT * FROM #{self.table_name} WHERE name = #{name}"
     DB[:conn].execute(sql)
@@ -71,6 +71,16 @@ class InteractiveRecord
 
   # TODO - .find_by executes the SQL to find a row by the attribute passed into the method
   # TODO - .find_by accounts for when an attribute value is an integer
-  def find_by
+  def find_by(attribute)
+    sql = <<-SQL
+      SELECT * FROM #{self.table_name} 
+      WHERE ? = ?
+    SQL
+    
+    column = attribute.keys[0]
+    value = attribute[column]
+
+
+    DB[:conn].execute(sql, column, value)
   end
 end
