@@ -58,8 +58,9 @@ class InteractiveRecord
     values.join(", ")
   end
 
-  # TODO - #table_name_for_insert return the table name when called on an instance of Student
+  # Returns the table name
   def table_name_for_insert
+    self.class.table_name
   end
 
   # TODO - .find_by_name executes the SQL to find a row by name
