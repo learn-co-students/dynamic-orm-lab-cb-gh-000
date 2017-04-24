@@ -27,7 +27,7 @@ class InteractiveRecord
     attr_accessor col_name.to_sym
   end
 
-  def initialize(attributes={})
+  def initialize(attributes = {})
     attributes.each do |attribute, key|
       self.send("#{attribute}=", key)
     end
@@ -35,6 +35,11 @@ class InteractiveRecord
 
   # TODO - Saves instance attributes to database and updates the object's id
   def save
+    sql = "INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (#{values_for_insert})"
+
+    DB[:conn].execute(sql)
+
+    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
   end
 
   # Returns the column names that will be used to insert values into database
