@@ -33,7 +33,7 @@ class InteractiveRecord
     end
   end
 
-  # TODO - Saves instance attributes to database and updates the object's id
+  # Saves instance attributes to database and updates the object's id
   def save
     sql = "INSERT INTO #{table_name_for_insert} (#{col_names_for_insert}) VALUES (#{values_for_insert})"
 
@@ -47,8 +47,15 @@ class InteractiveRecord
     self.class.column_names.delete_if { |col| col == "id" }
   end
 
-  # TODO - #values_for_insert formats the column names to be used in a SQL statement
+  # Formats the column names to be used in a SQL statement
   def values_for_insert
+    values = []
+
+    self.class.column_names.each do |col_name|
+      values << "'#{send(col_name)}'" unless send(col_name).nil?
+    end
+
+    values.join(", ")
   end
 
   # TODO - #table_name_for_insert return the table name when called on an instance of Student
