@@ -44,7 +44,7 @@ class InteractiveRecord
 
   # Returns the column names that will be used to insert values into database
   def col_names_for_insert
-    self.class.column_names.delete_if { |col| col == "id" }
+    self.class.column_names.delete_if {|col| col == "id"}.join(", ")
   end
 
   # Formats the column names to be used in a SQL statement
