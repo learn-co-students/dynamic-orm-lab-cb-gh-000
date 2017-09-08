@@ -53,6 +53,9 @@ class InteractiveRecord
   end
 
   def self.find_by(options = {})
-    sql = "SELECT * FROM #{self.table_name}"
+    value = options.values.first
+    value = value.class == Fixnum ? value : "'#{value}'"
+    sql = "SELECT * FROM #{self.table_name} WHERE #{options.keys.first} = #{value}"
+    DB[:conn].execute(sql)
   end
 end
