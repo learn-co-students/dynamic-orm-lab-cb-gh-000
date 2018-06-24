@@ -4,7 +4,7 @@
 
 1. Construct an ORM superclass that can be used for multiple classes
 2. Inherit the methods from the ORM class to the Student class
-
+k
 ## Dynamic ORMs & Inheritance
 
 By this point, we've learned the value of a dynamic ORM -- a way to write an ORM that is almost entirely abstract. The key takeaway is that this ORM is *not specific to any one class*. The code will live in one class (the superclass) and be inherited to any class (child class) we wish to have access to the ORM methods.
