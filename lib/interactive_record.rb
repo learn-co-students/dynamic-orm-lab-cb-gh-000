@@ -45,10 +45,15 @@ class InteractiveRecord
     @id = DB[:conn].execute("SELECT last_insert_rowid() FROM #{table_name_for_insert}")[0][0]
   end
 
-  def class.find_by_name(name)
+  def self.find_by_name(name)
     sql = "SELECT * FROM #{table_name} WHERE name = ?"
+    DB[:conn].execute(sql, name)
+  end
 
-    self.new(DB[:conn].execute(sql, name)[0])
+  def self.find_by(hash)
+    attribute = "#{hash.keys[0].to_s} = '#{hash.values[0].to_s}'"
+    sql = "SELECT * FROM #{table_name} WHERE #{attribute}"
+    DB[:conn].execute(sql)
   end
 
 end
